@@ -1,4 +1,4 @@
-Phase 1 — Data Integration ✅
+## Phase 1 — Data Integration ✅
 
 Focus: Build a unified dataset that captures environmental and health variables across countries and years.
 Key steps:
@@ -11,7 +11,7 @@ Create derived indicators like the Eco-Health Score (a composite measure of envi
 
 Validate data coverage and consistency.
 
-Phase 2 — Dashboard Development ✅
+## Phase 2 — Dashboard Development ✅
 
 Focus: Design a user-friendly, visually compelling Streamlit app for global exploration.
 Key steps:
@@ -24,7 +24,7 @@ Implement tabs and sidebar controls for smooth user navigation.
 
 Export charts automatically to the /output/charts folder for analysis and reporting.
 
-Phase 3 — Machine Learning Insights ✅
+## Phase 3 — Machine Learning Insights ✅
 
 Focus: Explore which environmental features most strongly predict human health.
 Key steps:
@@ -35,7 +35,7 @@ Evaluate feature importance to reveal main drivers of health outcomes.
 
 Interpret model results to balance technical accuracy with empathy-driven storytelling.
 
-Phase 4 — Refinement & Expansion 🚧
+## Phase 4 — Refinement & Expansion 🚧
 
 Focus: Extend the dashboard’s scope and improve accessibility.
 Next goals:
