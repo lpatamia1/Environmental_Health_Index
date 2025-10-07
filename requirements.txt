@@ -1,5 +1,16 @@
-pandas==2.2.2
-numpy==1.26.4
-plotly==5.24.1
-streamlit==1.37.1
-scikit-learn==1.5.1
+# Core data and analytics
+pandas>=2.0.0
+numpy>=1.25.0
+
+# Visualization and dashboard
+plotly>=5.20.0
+streamlit>=1.36.0
+
+# Machine learning
+scikit-learn>=1.4.0
+
+# Image export for Plotly figures
+kaleido>=0.2.1
+
+# Optional: to ensure consistent CSV + numeric ops
+pyyaml>=6.0
