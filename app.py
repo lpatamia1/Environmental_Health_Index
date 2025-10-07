@@ -32,20 +32,20 @@ df = load_panel()
 # 📊 QUICK DATA SUMMARY
 # ---------------------------------------------
 st.info(f"""
-🌍 **Dataset Coverage:** {df['country'].nunique()} countries  
-📅 **Years:** {df['year'].min()}–{df['year'].max()}  
-📈 **Total Records:** {len(df):,}  
-🧮 **Metrics:** CO₂, PM2.5, Forest Loss, Life Expectancy, Chronic Disease, Eco-Health Score
+**Dataset Coverage:** {df['country'].nunique()} countries  
+**Years:** {df['year'].min()}–{df['year'].max()}  
+**Total Records:** {len(df):,}  
+**Metrics:** CO₂, PM2.5, Forest Loss, Life Expectancy, Chronic Disease, Eco-Health Score
 """)
 
 # ---------------------------------------------
 # 🧭 TABS LAYOUT
 # ---------------------------------------------
 tab1, tab2, tab3, tab4 = st.tabs([
-    "🌍 Global Overview",
-    "📈 Global Trends",
-    "🔥 Correlations",
-    "🧠 Machine Learning Insights"
+    "Global Overview",
+    "Global Trends",
+    "Correlations",
+    "Machine Learning Insights"
 ])
 
 # ensure output folder for visuals
@@ -101,20 +101,37 @@ focus_countries = st.sidebar.multiselect(
 # ---------------------------------------------
 st.subheader(f"Global Map — {map_metric_label} ({year})")
 
-df_y = df[df["year"] == year].copy()
-fig_map = px.choropleth(
-    df_y,
-    locations="iso_code",
-    color=map_metric,
-    hover_name="country",
-    color_continuous_scale="Blues",
-)
-fig_map.update_layout(
-    title=None,
-    margin=dict(l=0, r=0, t=0, b=0),
-    coloraxis_colorbar_title=map_metric_label,
-)
-st.plotly_chart(fig_map, use_container_width=True)
+with tab1:
+    st.subheader(f"Global Map — {map_metric_label} ({year})")
+
+    df_y = df[df["year"] == year].copy()
+    fig_map = px.choropleth(
+        df_y,
+        locations="iso_code",
+        color=map_metric,
+        hover_name="country",
+        color_continuous_scale="Blues",
+    )
+    fig_map.update_layout(
+        title=None,
+        margin=dict(l=0, r=0, t=0, b=0),
+        coloraxis_colorbar_title=map_metric_label,
+    )
+    st.plotly_chart(fig_map, use_container_width=True)
+
+    # Top and bottom 5 analysis
+    top5 = df_y.nlargest(5, map_metric)[["country", map_metric]]
+    bottom5 = df_y.nsmallest(5, map_metric)[["country", map_metric]]
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("**⬆️ Top 5 Countries**")
+        st.table(top5)
+    with col2:
+        st.markdown("**⬇️ Bottom 5 Countries**")
+        st.table(bottom5)
+
+    st.markdown("---")
 
 # 💾 Save visualization
 fig_map.write_image(f"output/charts/global_map_{year}.png")
@@ -134,7 +151,9 @@ st.markdown("---")
 # CO₂ VS LIFE EXPECTANCY (GLOBAL TREND)
 # ---------------------------------------------
 st.subheader("CO₂ vs Life Expectancy — Global Trend")
-
+with tab2:
+    st.subheader("📈 CO₂ vs Life Expectancy — Global Trend")
+    # (your dual-axis plot + analysis)
 global_trend = (
     df.groupby("year")
       .agg(co2=("co2_per_capita", "mean"),
@@ -178,6 +197,9 @@ st.markdown("---")
 # CORRELATION HEATMAP
 # ---------------------------------------------
 st.subheader(f"Correlations Between Environment & Health ({year})")
+with tab3:
+    st.subheader(f"🔥 Correlations Between Environment & Health ({year})")
+    # (your correlation heatmap + analysis)
 
 corr_cols = ["co2_per_capita", "pm25", "forest_loss_pct",
              "life_expectancy", "chronic_disease_rate", "eco_health_score"]
@@ -211,6 +233,9 @@ st.markdown("---")
 # ---------------------------------------------
 st.subheader("Key Drivers of Life Expectancy")
 st.caption("Machine learning insights from Random Forest Regression")
+with tab4:
+    st.subheader("🧠 Key Drivers of Life Expectancy")
+    # (your Random Forest + bar chart)
 
 train = df.dropna(subset=["life_expectancy"])
 X_cols = ["co2_per_capita", "pm25", "forest_loss_pct",
