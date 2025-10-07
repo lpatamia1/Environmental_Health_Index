@@ -28,6 +28,26 @@ def load_panel():
 
 df = load_panel()
 
+# ---------------------------------------------
+# 📊 QUICK DATA SUMMARY
+# ---------------------------------------------
+st.info(f"""
+🌍 **Dataset Coverage:** {df['country'].nunique()} countries  
+📅 **Years:** {df['year'].min()}–{df['year'].max()}  
+📈 **Total Records:** {len(df):,}  
+🧮 **Metrics:** CO₂, PM2.5, Forest Loss, Life Expectancy, Chronic Disease, Eco-Health Score
+""")
+
+# ---------------------------------------------
+# 🧭 TABS LAYOUT
+# ---------------------------------------------
+tab1, tab2, tab3, tab4 = st.tabs([
+    "🌍 Global Overview",
+    "📈 Global Trends",
+    "🔥 Correlations",
+    "🧠 Machine Learning Insights"
+])
+
 # ensure output folder for visuals
 os.makedirs("output/charts", exist_ok=True)
 
